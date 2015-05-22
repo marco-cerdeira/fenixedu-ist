@@ -58,7 +58,7 @@ public class GetCandidateRegistrationInformation {
         infoCandidateRegistration
                 .setInfoStudentCurricularPlan(InfoStudentCurricularPlan.newInfoFromDomain(studentCurricularPlan));
 
-        if (studentCurricularPlan.getEnrolmentsCount() == 0) {
+        if (studentCurricularPlan.getEnrolmentsSet().isEmpty()) {
             infoCandidateRegistration.setEnrolments(null);
 
         } else {
