@@ -107,7 +107,6 @@ import org.fenixedu.academic.dto.InfoShowOccupation;
 import org.fenixedu.academic.dto.InfoSiteRoomTimeTable;
 import org.fenixedu.academic.dto.InfoWrittenEvaluation;
 import org.fenixedu.academic.dto.InfoWrittenTest;
-import org.fenixedu.academic.dto.externalServices.PersonInformationBean;
 import org.fenixedu.academic.service.factory.RoomSiteComponentBuilder;
 import org.fenixedu.academic.service.services.student.EnrolStudentInWrittenEvaluation;
 import org.fenixedu.academic.service.services.student.UnEnrollStudentInWrittenEvaluation;
@@ -164,6 +163,7 @@ import pt.ist.fenixedu.integration.api.beans.publico.FenixSchedule;
 import pt.ist.fenixedu.integration.api.beans.publico.FenixSpace;
 import pt.ist.fenixedu.integration.api.infra.FenixAPIFromExternalServer;
 import pt.ist.fenixedu.integration.api.infra.JerseyFacesContext;
+import pt.ist.fenixedu.integration.dto.PersonInformationBean;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 

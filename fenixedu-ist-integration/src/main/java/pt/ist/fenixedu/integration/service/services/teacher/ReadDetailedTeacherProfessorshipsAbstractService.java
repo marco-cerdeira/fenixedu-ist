@@ -33,9 +33,9 @@ import org.fenixedu.academic.domain.Teacher;
 import org.fenixedu.academic.domain.degree.DegreeType;
 import org.fenixedu.academic.dto.InfoCurricularCourse;
 import org.fenixedu.academic.dto.InfoProfessorship;
-import org.fenixedu.academic.dto.teacher.professorship.DetailedProfessorship;
 import org.fenixedu.academic.service.services.exceptions.FenixServiceException;
 
+import pt.ist.fenixedu.integration.dto.DetailedProfessorship;
 import pt.ist.fenixframework.FenixFramework;
 
 /**
