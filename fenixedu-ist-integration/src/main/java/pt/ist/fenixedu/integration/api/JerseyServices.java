@@ -375,8 +375,8 @@ public class JerseyServices {
             studentInfoForJobBank.put("curricularYear", String.valueOf(registration.getCurricularYear()));
             for (CycleCurriculumGroup cycleCurriculumGroup : registration.getLastStudentCurricularPlan()
                     .getCycleCurriculumGroups()) {
-                studentInfoForJobBank.put(cycleCurriculumGroup.getCycleType().name(), cycleCurriculumGroup.getAverage()
-                        .toString());
+                studentInfoForJobBank.put(cycleCurriculumGroup.getCycleType().name(), cycleCurriculumGroup.calculateRawGrade()
+                        .getValue());
 
             }
             infos.add(studentInfoForJobBank);
@@ -441,7 +441,7 @@ public class JerseyServices {
             for (CycleType cycleType : registration.getDegreeType().getCycleTypes()) {
                 CycleCurriculumGroup cycle = registration.getLastStudentCurricularPlan().getCycle(cycleType);
                 if (cycle != null) {
-                    studentInfoForJobBank.put(cycle.getCycleType().name(), cycle.getAverage().toString());
+                    studentInfoForJobBank.put(cycle.getCycleType().name(), cycle.calculateRawGrade().getValue());
                 }
             }
             return studentInfoForJobBank;

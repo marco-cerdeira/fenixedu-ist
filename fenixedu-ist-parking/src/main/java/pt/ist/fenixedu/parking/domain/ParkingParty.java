@@ -366,7 +366,7 @@ public class ParkingParty extends ParkingParty_Base {
                         } else {
                             stringBuilder.append(")");
                         }
-                        stringBuilder.append("<br/>Media: ").append(registration.getAverage());
+                        stringBuilder.append("<br/>Media: ").append(registration.getRawGrade().getValue());
                         stringBuilder.append("<br/>");
                     }
                 }
@@ -440,7 +440,7 @@ public class ParkingParty extends ParkingParty_Base {
                         if (isFirstTimeEnrolledInCurrentYear(registration)) {
                             stringBuilder.append(" - 1ª vez");
                         }
-                        stringBuilder.append(" - ").append(registration.getAverage());
+                        stringBuilder.append(" - ").append(registration.getRawGrade().getValue());
                         result.add(stringBuilder.toString());
                     }
                 }

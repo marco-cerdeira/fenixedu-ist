@@ -217,7 +217,7 @@
 								<fr:property name="comment" value="label.registrationConclusionProcess.enteredConclusionDate.comment"/>
 								<fr:property name="commentLocation" value="right" />
 							</fr:slot>
-							<fr:slot 	name="calculatedAverage" 
+							<fr:slot 	name="calculatedRawGrade.value" 
 										readOnly="true"
 										key="label.curriculum.validation.calculatedAverage"  
 										bundle="ACADEMIC_OFFICE_RESOURCES">
@@ -228,7 +228,7 @@
 										key="label.curriculum.validation.enteredAverageGrade" 
 										bundle="ACADEMIC_OFFICE_RESOURCES">
 							</fr:slot>
-							<fr:slot 	name="calculatedFinalAverage" 
+							<fr:slot 	name="calculatedFinalAverage.value" 
 										readOnly="true"
 										key="label.curriculum.validation.calculatedFinalAverage"  
 										bundle="ACADEMIC_OFFICE_RESOURCES">

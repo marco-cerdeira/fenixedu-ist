@@ -569,9 +569,9 @@ public class FenixAPIv1 {
 
                 final Integer curricularYear = icurriculum.getCurricularYear();
                 BigDecimal credits = icurriculum.getSumEctsCredits();
-                BigDecimal average = icurriculum.getAverage();
+                BigDecimal average = icurriculum.getRawGrade().getNumericValue();
 
-                Integer calculatedAverage = icurriculum.getRoundedAverage();
+                Integer calculatedAverage = icurriculum.getFinalGrade().getIntegerValue();
 
                 boolean isFinished = studentCurricularPlan.isConcluded();
 
