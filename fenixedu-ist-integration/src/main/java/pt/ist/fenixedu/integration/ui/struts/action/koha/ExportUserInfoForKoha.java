@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,7 +65,6 @@ import org.joda.time.DateTime;
 import org.joda.time.YearMonthDay;
 
 import pt.ist.fenixedu.contracts.domain.Employee;
-import pt.ist.fenixedu.contracts.domain.personnelSection.contracts.PersonContractSituation;
 import pt.ist.fenixedu.contracts.domain.util.CategoryType;
 import pt.ist.fenixedu.integration.FenixEduIstIntegrationConfiguration;
 import pt.ist.fenixedu.integration.ui.struts.action.externalServices.ExternalInterfaceDispatchAction;
@@ -149,35 +148,28 @@ public class ExportUserInfoForKoha extends ExternalInterfaceDispatchAction {
         spreadsheet.setHeader("IST-ID").setHeader("*departamento").setHeader("nome").setHeader("email").setHeader("telefone")
                 .setHeader("cgdCode");
 
-        Set<Person> teachersAndResearchers = new HashSet<>();
-        for (Teacher teacher : Bennu.getInstance().getTeachersSet()) {
-            if (teacher.isActiveContractedTeacher()) {
-                teachersAndResearchers.add(teacher.getPerson());
-            }
-        }
-        for (Employee employee : Bennu.getInstance().getEmployeesSet()) {
-            PersonContractSituation currentResearcherContractSituation =
-                    employee.getPerson().getPersonProfessionalData() != null ? employee.getPerson().getPersonProfessionalData()
-                            .getCurrentPersonContractSituationByCategoryType(CategoryType.RESEARCHER) : null;
-            if (currentResearcherContractSituation != null) {
-                teachersAndResearchers.add(employee.getPerson());
-            }
-        }
-        teachersAndResearchers.forEach(p -> addEmployeeInformation(spreadsheet, p));
+        Stream.concat(
+                Bennu.getInstance().getTeachersSet().stream().filter(teacher -> teacher.hasTeacherAuthorization())
+                        .map(Teacher::getPerson),
+                Bennu.getInstance().getEmployeesSet().stream().filter(ExportUserInfoForKoha::isResearcher)
+                        .map(Employee::getPerson)).distinct().forEach(p -> addEmployeeInformation(spreadsheet, p));
 
         return sendXls(response, spreadsheet);
     }
-    
+
+    protected static boolean isResearcher(Employee employee) {
+        return (employee.getPerson().getPersonProfessionalData() != null ? employee.getPerson().getPersonProfessionalData()
+                .getCurrentPersonContractSituationByCategoryType(CategoryType.RESEARCHER) : null) != null;
+    }
 
     public ActionForward getOfficialsNotTeachers(final ActionMapping mapping, final ActionForm actionForm,
             final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final Spreadsheet spreadsheet = new Spreadsheet("OfficialsNotTeachers");
-        spreadsheet.setHeader("IST-ID").setHeader("nome").setHeader("email").setHeader("telefone")
-                .setHeader("cgdCode");
-        
-        Bennu.getInstance().getEmployeesSet().stream().filter(Employee::isActive)
-                .map(employee -> employee.getPerson()).forEach(p -> addEmployeeInformationOfficialsNotTeachers(spreadsheet, p));
-        
+        spreadsheet.setHeader("IST-ID").setHeader("nome").setHeader("email").setHeader("telefone").setHeader("cgdCode");
+
+        Bennu.getInstance().getEmployeesSet().stream().filter(Employee::isActive).map(employee -> employee.getPerson())
+                .forEach(p -> addEmployeeInformationOfficialsNotTeachers(spreadsheet, p));
+
         return sendXls(response, spreadsheet);
     }
 
@@ -189,8 +181,8 @@ public class ExportUserInfoForKoha extends ExternalInterfaceDispatchAction {
 
     private void addEmployeeInformationOfficialsNotTeachers(final Spreadsheet spreadsheet, final Person person) {
         final Row row = spreadsheet.addRow();
-        row.setCell(person.getUsername()).setCell(person.getName())
-                .setCell(getEmail(person)).setCell(getTelefone(person)).setCell(getCGDCode(person));
+        row.setCell(person.getUsername()).setCell(person.getName()).setCell(getEmail(person)).setCell(getTelefone(person))
+                .setCell(getCGDCode(person));
     }
 
     public ActionForward getStudents(final ActionMapping mapping, final ActionForm actionForm, final HttpServletRequest request,
